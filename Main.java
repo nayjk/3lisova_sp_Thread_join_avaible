@@ -1,41 +1,49 @@
-public class Main{
-    public static void main(String[] args) throws InterruptedException {
+ackage com.company;
+
+public class OwlorLiza {
+    public static void main(String args[]) throws InterruptedException {
         System.out.println("Поток про Сову щас создастся!");
-        Owl test1 = new Owl();
+        CuteGirl owl = new CuteGirl("Сова появилась!");
         System.out.println("Поток про Сову создан!");
-        test1.start();
-        System.out.println("Поток про Сову запущен!");
-        test1.join();
-        System.out.println("Поток про Сову завершен! Усё!");
+
         System.out.println("Поток про Лизу щас создастся!");
-        Liza test2 = new Liza();
+        CuteGirl liza = new CuteGirl("Лиза появилась!");
         System.out.println("Поток про Лизу создан!");
-        test2.start();
+
+        owl.start();
+        System.out.println("Поток про Сову запущен!");
+
+        liza.start();
         System.out.println("Поток про Лизу запущен!");
-        test2.join();
-        System.out.println("Поток про Лизу завершен! Усё!");
-    }
-}
-class Owl extends Thread{
-    public void run(){
-        for (int i = 1; i <= 10; i++){
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+
+        try {
+            owl.join();
+            System.out.println("Поток про Сову завершен! Усё!");
+            if (liza.isAlive()) {
+                liza.join();
+                System.out.println("Поток про Лизу завершен! Усё!");
+                System.out.println("Победила Лиза!");
+            } else {
+                System.out.println("Победила Сова!");
             }
-            System.out.println("Сова появилась!");
+        } catch (InterruptedException e){
         }
     }
-}class Liza extends Thread{
-    public void run(){
-        for (int i = 1; i <= 10; i++){
+}
+class CuteGirl extends Thread {
+    public CuteGirl(String name) {
+        this.name = name;
+    }
+    String name;
+    public void run() {
+
+        for(int i = 0; i<10;i++) {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                System.out.println(e.getMessage());
             }
-            System.out.println("Лиза появилась!");
+            System.out.println(name);
         }
     }
 }
